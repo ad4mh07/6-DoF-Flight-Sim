@@ -76,16 +76,12 @@ def flat_earth_eom(t, x, vmod, amod):
     qbar_kgpms2 = 0.5 *rho_interp_kgpm3 *true_airspeed_mps 
 
     #Avoiding div by 0 when calc.ing angle of attack etc
-    if u_b_mps ==0 and w_b_mps:
-        w_over_u = 0
-    else:
-        w_over_u =u_b_mps / w_b_mps
     if true_airspeed_mps == 0 and v_b_mps == 0:
         v_over_VT = 0
     else:
         v_over_VT = v_b_mps / true_airspeed_mps
 
-    alpha_rad = np.atan(w_over_u)
+    alpha_rad = np.atan2(w_b_mps, u_b_mps)
     beta_rad  = np.asin(v_over_VT)
     s_alpha   = np.sin(alpha_rad)
     c_alpha   = np.cos(alpha_rad)
@@ -135,9 +131,9 @@ def flat_earth_eom(t, x, vmod, amod):
     
     dx[4] = ( (Jzz_b_kgm2 - Jxx_b_kgm2) * r_b_rps * p_b_rps - Jxz_b_kgm2 * (p_b_rps**2 - r_b_rps**2) + m_b_kgm2ps2 ) / Jyy_b_kgm2
 
-    dx[5]= ( -Jxz_b_kgm2 * (Jxz_b_kgm2 - Jyy_b_kgm2 + Jzz_b_kgm2) * q_b_rps * r_b_rps + \
-            (Jxx_b_kgm2 * (Jxx_b_kgm2 - Jyy_b_kgm2) + Jxz_b_kgm2**2) * p_b_rps * q_b_rps + \
-            Jxz_b_kgm2 * l_b_kgm2ps2 + Jxx_b_kgm2 * n_b_kgm2ps2) / (Jxx_b_kgm2 * Jzz_b_kgm2 - Jxz_b_kgm2**2)
+    dx[5]= ( -Jxz_b_kgm2 * (Jxx_b_kgm2 - Jyy_b_kgm2 + Jzz_b_kgm2) * q_b_rps * r_b_rps + \
+        (Jxx_b_kgm2 * (Jxx_b_kgm2 - Jyy_b_kgm2) + Jxz_b_kgm2**2) * p_b_rps * q_b_rps + \
+        Jxz_b_kgm2 * l_b_kgm2ps2 + Jxx_b_kgm2 * n_b_kgm2ps2) / (Jxx_b_kgm2 * Jzz_b_kgm2 - Jxz_b_kgm2**2)
 
     #Kinematic equations
     dx[6] = p_b_rps + s_phi * t_theta * q_b_rps + c_phi * t_theta * r_b_rps
@@ -147,10 +143,10 @@ def flat_earth_eom(t, x, vmod, amod):
     dx[8] = s_phi / c_theta * q_b_rps + c_phi / c_theta * r_b_rps
 
     #Position/nav equations
-    dx[9] = c_theta*c_phi*u_b_mps + (-c_phi*s_psi+s_phi*s_theta*c_psi)*v_b_mps + (s_phi*s_psi + c_phi*s_theta*c_psi)*w_b_mps
+    dx[9] = c_theta*c_psi*u_b_mps + (s_phi*s_theta*c_psi - c_phi*s_psi)*v_b_mps + (c_phi*s_theta*c_psi + s_phi*s_psi)*w_b_mps
     
-    dx[10] = c_phi*s_psi*u_b_mps + (c_phi*c_psi+s_phi*s_theta*s_psi)*v_b_mps + (-s_phi*c_psi + c_phi*s_theta*s_psi)*w_b_mps
-    
+    dx[10] = c_theta*s_psi*u_b_mps + (c_phi*c_psi+s_phi*s_theta*s_psi)*v_b_mps + (-s_phi*c_psi + c_phi*s_theta*s_psi)*w_b_mps
+
     dx[11] = -s_theta*u_b_mps + s_phi*c_theta*v_b_mps + c_phi*c_theta*w_b_mps
 
     return dx

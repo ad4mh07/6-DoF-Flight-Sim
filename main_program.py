@@ -8,6 +8,11 @@ from governing_equations import flat_earth_eom
 from tools.Interpolators import fastInterp1
 from vehicle_models import spheres
 
+from vehicle_models import CESSNA_172
+from flights.flight_config import TRIMMED_STRAIGHT_LEVEL_50MPS, build_initial_state
+
+"""Need to make variable names in build_initial_state(flight) consistent"""
+
 #==================================================
 # 1: Initialisation
 #==================================================
@@ -22,47 +27,30 @@ g_mps2 = ussa1976.core.compute_gravity(alt_m)
 
 amod={"alt_m" : alt_m, "rho_kgpm3": rho_kgpm3, "c_mps": c_mps,  "g_mps2": g_mps2 } #amod used to be for Aircraft, now its for atmosphere; see vmod
 
-#Vehicle definition
-vmod=spheres.BowlingBall() #The old amod
 
-print(f"The analytical termical velocity is {vmod['Vterm_mps']:.2f} mps.")
+#Vehicle & flight definition, and intial conditions (Cessna)
+vmod = CESSNA_172
+flight = TRIMMED_STRAIGHT_LEVEL_50MPS
 
-#Set initial conditions
+x0 = build_initial_state(flight)
+nx0 = x0.size
 
-u0_bf_mps = 0.001  #Avoids division by 0
-v0_bf_mps = 0 
-w0_bf_mps = 0 
-p0_bf_rps = 0 
-q0_bf_rps = 0 
-r0_bf_rps = 0 
-phi0_rad = 0* math.pi
-theta0_rad = -89.99*math.pi/180 
-psi0_rad = 0 
-p10_n_m = 0 
-p20_n_m = 0 
-p30_n_m = -20000 
+t0_s = flight["t0_s"]
+tf_s = flight["tf_s"]
+h_s = flight["h_s"]
 
-x0= np.array([
-    u0_bf_mps, # x axis body-fixed CS velocity
-    v0_bf_mps, # y axis body-fixed CS velocity
-    w0_bf_mps, # z axis body-fixed CS velocity
-    p0_bf_rps, # roll rate 
-    q0_bf_rps, # pitch rate
-    r0_bf_rps, # yaw rate
-    phi0_rad, # roll angle
-    theta0_rad, # pitch angle
-    psi0_rad, # psi angle
-    p10_n_m, # x axis position wrt NED CS
-    p20_n_m, # y axis position wrt NED CS
-    p30_n_m, # z axis position wrt NED CS
-    ])
 
-nx0= x0.size
+#Vehicle & flight definition, and intial conditions (Bowling Ball)
+"""
+vmod = spheres.bowling_ball()
+x0 = spheres.x0
+nx0 = spheres.nx0
 
-#Define timings
 t0_s = 0
 tf_s = 185
 h_s = 0.01
+"""
+
 
 #==================================================
 # 2: Numerical approximation
@@ -190,7 +178,7 @@ axes[2, 0].set_xlabel('Time [s]', color='white')
 axes[2, 0].set_ylabel('p [r/s]', color='white')
 axes[2, 0].grid(True)
 axes[2, 0].set_facecolor('black')
-axes[1, 0].tick_params(colors = 'white')
+axes[2, 0].tick_params(colors = 'white')
 
 # Pitch rate q^b_b/n
 axes[2, 1].plot(t_s, x[4,:], color='yellow')
@@ -202,6 +190,8 @@ axes[2, 1].tick_params(colors = 'white')
 
 # Yaw rate r^b_b/n
 axes[2, 2].plot(t_s, x[5,:], color='white')
+axes[2, 2].set_xlabel('Time [s]', color='white')
+axes[2, 2].set_ylabel('r [r/s]', color='white')
 axes[2, 2].grid(True)
 axes[2, 2].set_facecolor('black')
 axes[2, 2].tick_params(colors = 'white')

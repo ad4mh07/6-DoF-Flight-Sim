@@ -88,6 +88,14 @@ For even more flexibility, you can write your own vehicle data, and initial cond
 
 
 ## 5: Examples
+![Flight path](saved_figures/Figure_1.png)
+
+![Velocity, angles & rotations](saved_figures/Figure_2.png)
+
+![Air data](saved_figures/Figure_3.png)
+
+![Position & other plots](saved_figures/Figure_4.png)
+
 
 ## 6: Author and References
 Written by Adam Hancock — Mathematics undergraduate, University of Bath. Built as a self-study project applying real analysis, linear algebra, and numerical methods to rigid-body flight dynamics. 

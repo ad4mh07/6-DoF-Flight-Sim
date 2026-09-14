@@ -1,5 +1,5 @@
 import numpy as np
-from tools.Interpolators import fastInterp1
+from tools.interpolators import fastInterp1
 
 def flat_earth_eom(t, x, vmod, amod):
     """

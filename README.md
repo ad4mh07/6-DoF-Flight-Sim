@@ -1,7 +1,7 @@
 # 6 Degree of Freedom Flight Simulator
 
 ## 1: Overview
-I have built a 6 degree of freedom flight simulator in Python. Taking a vehicle model and initial flight conditions, it plots the flight path, and other important visualisations, such as angle of attack and side slip, velocities, etc. The core of the model, flat_earth_eom.py. It also uses atmospheric data for various aerodynamic computations, namely the 1976 USSA atmospheric model.
+I have built a 6 degree of freedom flight simulator in Python. Taking a vehicle model and initial flight conditions, it plots the flight path, and other important visualisations, such as angle of attack and side slip, velocities, etc. The core of the model, flat_earth_eom.py also uses atmospheric data for various aerodynamic computations, namely the 1976 USSA atmospheric model.
 
 ## 2: The Project
 
@@ -98,4 +98,7 @@ References: Ben Dickinson, Learn Guidance and Control (YouTube / Patreon tutoria
  — the primary reference this project follows Standard 6-DoF flat-earth formulation as used in classical flight dynamics texts (e.g. Stevens & Lewis, Aircraft Control and Simulation)
 
 ## 7: Limitations & improvements 
-There are some limitations / improvements to be made. Namely, the integrator could be improved to one with an adaptive step size, like RK44. Some minor elements of the physics have not been included, specifically external moments and a lift/drag/side-force aerodynamic model (stability derivatives). The simulation could also benefit from including quaternions and Euler-angle gimbal lock. Allowing the user to start the simulation at a septic time, t0 is redundant, as the initial conditions get applied regardless.
+There are some limitations / improvements to be made. Namely, the integrator could be improved to one with an adaptive step size, like RK44. Some minor elements of the physics have not been included, specifically external moments, aerodynamic forces and a lift/drag/side-force aerodynamic model (stability derivatives). For the first two, these can easily be added in, as they are currently just initialised as 0.
+
+
+The simulation could also benefit from including quaternions and Euler-angle gimbal lock. Allowing the user to start the simulation at a septic time, t0 is redundant, as the initial conditions get applied regardless.

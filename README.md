@@ -1,7 +1,7 @@
 # 6 Degree of Freedom Flight Simulator
 
 ## 1: Overview
-I have built a 6 degree of freedom flight simulator in Python. Taking a vehicle model and initial flight conditions, it plots the flight path, and other important visualisations, such as angle of attack and side slip, velocities, etc.
+I have built a 6 degree of freedom flight simulator in Python. Taking a vehicle model and initial flight conditions, it plots the flight path, and other important visualisations, such as angle of attack and side slip, velocities, etc. The core of the model, flat_earth_eom.py 
 
 ## 2: The Project
 ```

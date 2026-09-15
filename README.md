@@ -55,6 +55,18 @@ main_program- the code that runs the entire simulation; importing all the files 
 
 
 ## 3: Physics
+Here is an (unordered) overview of the main aspects of physics that are covered by my simulation.
+
+Main Equations- the simulation builds then solves the 6 rotational and translational (differential) equations, which provide the vehicle's velocities and orientations.
+
+Reference Frames- The grid body is described across 3 reference frames; body-fixed, NED and Euler angles
+
+Kinematics- a direct cosine matrix (DCM) is used to easily convert between NED and body-fixed coordinate systems. Another DCM is used to resolve forces from the wind axes in the body frame
+
+(External) Forces- drag, side and lift are considered in the body frame, as long with the (previously resolved) gravity
+
+Moments- Driven by aerodynamics, roll, pitch and yaw are calculated from damping-derivative coefficients
+
 
 ## 4: Getting started (Mac)
 
@@ -98,12 +110,12 @@ For even more flexibility, you can write your own vehicle data, and initial cond
 
 
 ## 6: Author and References
-Written by Adam Hancock — Mathematics undergraduate, University of Bath. Built as a self-study project applying real analysis, linear algebra, and numerical methods to rigid-body flight dynamics. 
+Written by Adam Hancock: Mathematics undergraduate, University of Bath. Built as a self-study project applying real analysis, linear algebra, and numerical methods to rigid-body flight dynamics. 
 
 Disclaimer: AI (Claude) was used for consultancy and bug fixing. 
 
 References: Ben Dickinson, Learn Guidance and Control (YouTube / Patreon tutorial series)
- — the primary reference this project follows Standard 6-DoF flat-earth formulation as used in classical flight dynamics texts (e.g. Stevens & Lewis, Aircraft Control and Simulation)
+ - the primary reference this project follows Standard 6-DoF flat-earth formulation as used in classical flight dynamics texts (e.g. Stevens & Lewis, Aircraft Control and Simulation)
 
 ## 7: Limitations & improvements 
 There are some limitations / improvements to be made. Namely, the integrator could be improved to one with an adaptive step size, like RK44. Some minor elements of the physics have not been included, specifically external moments, aerodynamic forces and a lift/drag/side-force aerodynamic model (stability derivatives). For the first two, these can easily be added in, as they are currently just initialised as 0.
